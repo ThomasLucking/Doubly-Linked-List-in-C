@@ -1,0 +1,12 @@
+# Ignore executables (files with no extension)
+# Note: This works best if your source files always have .c extensions
+basics
+pointers
+structs
+swap
+
+# Ignore debug symbols (macOS)
+*.dSYM/
+
+# Ignore editor settings
+.vscode/
