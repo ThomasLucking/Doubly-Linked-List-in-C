@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Node
 {
@@ -26,19 +27,54 @@ struct Node *insert(char *value, struct Node **head){
 }
 
 
+struct Node *find(char *value, struct Node **head){
+    struct Node *temp = *head;
+    while(temp != NULL){
+        if(strcmp(temp->value, value) == 0){
+            return temp;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}
+
+
+void delete(char *value, struct Node **head)
+{
+    struct Node *findNode = find(value, head);
+
+    if(!findNode){
+        return;
+    }
+
+    if(findNode->prev != NULL) findNode->prev->next = findNode->next;
+    if(findNode->next != NULL) findNode->next->prev = findNode->prev;
+
+    if(findNode == *head){
+        *head = findNode->next;
+    }
+
+    free(findNode);
+};
+
+
+
 int main(){
 
     struct Node *head = NULL;
-    insert("Hello world", &head);
-    insert("Hello world", &head);
-    insert("Hello world", &head);
-    insert("Hello world", &head);
+    insert("Hello", &head);
+    insert("world", &head);
+    insert("foo", &head);
+
+    struct Node *result = find("world", &head);
+    delete("Hello", &head);
 
     struct Node *temp = head;
-    while(temp != NULL){
-        printf("%s", temp->value);
+    while(temp != NULL) {
+        printf("%s\n", temp->value);
         temp = temp->next;
-
     }
+
+    printf("%s", result->value);
 
 }
